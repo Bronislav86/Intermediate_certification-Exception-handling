@@ -40,17 +40,16 @@ public class Program {
         }
         
         StringBuilder dataToWrite = new StringBuilder();
-        String path = splitedData[0].substring(0, splitedData[0].length() - 1) + ".txt";
+        String path = mapData.get("surname").substring(0, mapData.get("surname").length()-1) + ".txt";
         FileWriter writer = new FileWriter(new File(path), true);
-        // if (!path.equals(splitedData[0].length() - 1 + ".txt")) {       
             try {
 
-                dataToWrite.append("<").append(mapData.get("surname")).deleteCharAt(mapData.get("surname").length()).append(">");
-                dataToWrite.append("<").append(mapData.get("name")).deleteCharAt(mapData.get("name").length()).append(">");
+                dataToWrite.append("<").append(mapData.get("surname")).deleteCharAt(dataToWrite.length()-1).append(">");
+                dataToWrite.append("<").append(mapData.get("name")).deleteCharAt(dataToWrite.length()-1).append(">");
                 dataToWrite.append("<").append(mapData.get("midName")).append(">");
                 dataToWrite.append("<").append(mapData.get("birthDate")).append(">");
                 dataToWrite.append("<").append(mapData.get("fone")).append(">");
-                dataToWrite.append("<").append(mapData.get("gender")).append(">");
+                dataToWrite.append("<").append(mapData.get("gender")).append(">").append("\n");
             System.out.println(dataToWrite);
             writer.write(String.valueOf(dataToWrite));
             writer.write("\n");
