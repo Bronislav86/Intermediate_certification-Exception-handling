@@ -1,16 +1,11 @@
 package Intermediate_certification;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.swing.RowFilter.Entry;
 
 public class Program {
     public static void main(String[] args) throws IOException {
@@ -25,26 +20,38 @@ public class Program {
 
         Map<String, String> mapData = new HashMap<>();
         for (String element : splitedData) {
-            if (element.contains(".")) {
+            if (element.contains(".") && element.length() == 10) {
                 mapData.put("birthDate", element);
             } else if (element.matches(".*\\d.*"))  {
                 mapData.put("fone", element);
-            } else if (element.length() == 1) {
+            } else if (element.length() == 1 && (element.contains("f") || element.contains("m"))) {
                 mapData.put("gender", element);
-            }else if (element.contains(",")) {
+            }else if (element.contains(",") && !mapData.containsKey("surname")) {
+                mapData.put("surname", element);
+            } else if (element.contains(",") && !mapData.containsKey("name")) {
                 mapData.put("name", element);
-            }            
+            }else if (element.length() > 1 && !element.contains(".") && !element.matches(".*\\d.*") && !element.contains(",")) {
+                mapData.put("midName", element);
+            }      
+        }
+
+        for (Map.Entry<String,String> string : mapData.entrySet()) {
+            System.out.println(string.getKey() + "=" + string.getValue());
         }
         
         StringBuilder dataToWrite = new StringBuilder();
         String path = splitedData[0].substring(0, splitedData[0].length() - 1) + ".txt";
         FileWriter writer = new FileWriter(new File(path), true);
-        if (!path.equals(splitedData[0].length() - 1 + ".txt")) {       
+        // if (!path.equals(splitedData[0].length() - 1 + ".txt")) {       
             try {
-            for (String string : splitedData) {
-                dataToWrite.append(string).append(" ");
-            }
-            dataToWrite.delete(dataToWrite.length(), dataToWrite.length()).append("\n");
+
+                dataToWrite.append("<").append(mapData.get("surname")).deleteCharAt(mapData.get("surname").length()).append(">");
+                dataToWrite.append("<").append(mapData.get("name")).deleteCharAt(mapData.get("name").length()).append(">");
+                dataToWrite.append("<").append(mapData.get("midName")).append(">");
+                dataToWrite.append("<").append(mapData.get("birthDate")).append(">");
+                dataToWrite.append("<").append(mapData.get("fone")).append(">");
+                dataToWrite.append("<").append(mapData.get("gender")).append(">");
+            System.out.println(dataToWrite);
             writer.write(String.valueOf(dataToWrite));
             writer.write("\n");
             writer.flush();
@@ -52,29 +59,29 @@ public class Program {
             }catch (IOException e){
                 System.out.println("Нудалось записать в файл.");
             }
-        } else {
-            for (String string : splitedData) {
-                dataToWrite.append(string).append(" ");
-            }
-            dataToWrite.delete(dataToWrite.length(), dataToWrite.length()).append("\n");
-            BufferedReader br = new BufferedReader(new FileReader(path));
-            List<String> sb = new ArrayList<>();
-            String content = br.readLine();
-            while (content != null) {
-                sb.add(content);
-                content = br.readLine();
-            }
-            br.close();
-            dataToWrite.append("\n");
-            for (String element : sb) {
-                dataToWrite.append(element);
-            }
-            dataToWrite.delete(dataToWrite.length(), dataToWrite.length()).append("\n");
-            writer.write(String.valueOf(dataToWrite) + "\n");
-            writer.write("\n");
-            writer.flush();
-            writer.close();
-        }
+        // } else {
+        //     for (String string : splitedData) {
+        //         dataToWrite.append(string).append(" ");
+        //     }
+        //     dataToWrite.delete(dataToWrite.length(), dataToWrite.length()).append("\n");
+        //     BufferedReader br = new BufferedReader(new FileReader(path));
+        //     List<String> sb = new ArrayList<>();
+        //     String content = br.readLine();
+        //     while (content != null) {
+        //         sb.add(content);
+        //         content = br.readLine();
+        //     }
+        //     br.close();
+        //     dataToWrite.append("\n");
+        //     for (String element : sb) {
+        //         dataToWrite.append(element);
+        //     }
+        //     dataToWrite.delete(dataToWrite.length(), dataToWrite.length()).append("\n");
+        //     writer.write(String.valueOf(dataToWrite) + "\n");
+        //     writer.write("\n");
+        //     writer.flush();
+        //     writer.close();
+        // }
         
 
     }

@@ -17,7 +17,7 @@ public class PersonData {
     public String[] getPersonData(String value) throws NumberFormatException {
         String[] data = value.split(" ");
         checkData(data);
-        print(data);
+        //print(data);
         return data;
     }
 
