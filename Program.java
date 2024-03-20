@@ -15,15 +15,14 @@ public class Program {
                 System.out.println(e.getMessage());
             }
             Map<String, String> mapData = new HashMap<>(data.sortDataByType(splitedData));
-            for (Map.Entry<String, String> key : mapData.entrySet()) {
-                System.out.println( key );
+            for (Map.Entry<String, String> elem : mapData.entrySet()) {
+                System.out.println( elem );
             }
+            data.checkValueOfData(mapData);
             WriterToFile writer = new WriterToFile();
-            String path = new String(mapData.get("surname").substring(0, mapData.get("surname").length()-1) + ".txt");
+            String path = new String(writer.getPath(mapData));
             System.out.println(path);
             
             writer.writeToFile(writer.createStringBuilder(mapData), path);
-        
-        
     }
 }

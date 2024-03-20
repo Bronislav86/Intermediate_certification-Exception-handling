@@ -20,7 +20,6 @@ public class PersonData {
     public String[] getPersonData(String value) throws NumberFormatException {
         String[] data = value.split(" ");
         checkData(data);
-        //print(data);
         return data;
     }
 
@@ -38,21 +37,40 @@ public class PersonData {
         for (String element : split) {
             if (element.contains(".") && element.length() == 10) {
                 mapData.put("birthDate", element);
-            }else if (element.matches(".*\\d.*"))  {
+                if (!element.contains(".")) {
+                    throw new DateFormatException();
+                }
+            }
+            if (element.matches(".*\\d.*"))  {
                 mapData.put("fone", element);
             }else if (element.length() == 1 && (element.contains("f") || element.contains("m"))) {
                 mapData.put("gender", element);
-            }else if (element.contains(",") && !mapData.containsKey("surname")) {
+            }else if (element.length() > 1 && !element.matches(".*\\d.*") && !mapData.containsKey("surname")) {
                 mapData.put("surname", element);
-                if (element.contains(",") && !mapData.containsKey("name")) {
+            }else if (element.length() > 1 && !element.matches(".*\\d.*") && mapData.containsKey("surname") && !mapData.containsKey("name")) {
                 mapData.put("name", element);
-                    if (element.length() > 1 && !element.contains(".") && !element.matches(".*\\d.*") && !element.contains(",")) {
+            }else if (element.length() > 1 && !element.matches(".*\\d.*") && mapData.containsKey("surname") && mapData.containsKey("name") && !mapData.containsKey("midName")) {
                 mapData.put("midName", element);
-                    }
-                }
             }
         }
         return mapData;
+    }
+
+    public void checkValueOfData (Map<String, String> map){
+
+        if (!map.containsKey("birthDate")) {
+            throw new DateFormatException();
+        } else if (!map.containsKey("fone")) {
+            throw new FoneFormatException();
+        }else if (!map.containsKey("gender")) {
+            throw new GenderFormatException();
+        } else if (!map.containsKey("surname")) {
+            throw new NameFormatException();
+        } else if (!map.containsKey("name")) {
+            throw new NameFormatException();
+        }else if (!map.containsKey("midName")) {
+            throw new NameFormatException();
+        }
     }
    
 }

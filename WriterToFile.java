@@ -1,12 +1,11 @@
 package Intermediate_certification;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class WriterToFile extends PersonData {
+public class WriterToFile {
 
     public WriterToFile(){}
 
@@ -14,8 +13,8 @@ public class WriterToFile extends PersonData {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("<").append(map.get("surname")).deleteCharAt(sb.length()-1).append(">");
-        sb.append("<").append(map.get("name")).deleteCharAt(sb.length()-1).append(">");
+        sb.append("<").append(map.get("surname")).append(">");
+        sb.append("<").append(map.get("name")).append(">");
         sb.append("<").append(map.get("midName")).append(">");
         sb.append("<").append(map.get("birthDate")).append(">");
         sb.append("<").append(map.get("fone")).append(">");
@@ -25,7 +24,7 @@ public class WriterToFile extends PersonData {
     }
 
     public String getPath (Map<String, String> map){
-        String path = new String(map.get("surname").substring(0, map.get("surname").length()-1) + ".txt");
+        String path = new String(map.get("surname") + ".txt");
         return path;
     }
 
