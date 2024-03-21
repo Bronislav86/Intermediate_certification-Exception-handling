@@ -12,14 +12,16 @@ public class WriterToFile {
     public StringBuilder createStringBuilder (Map<String, String> map){
 
         StringBuilder sb = new StringBuilder();
-
+        try {
         sb.append("<").append(map.get("surname")).append(">");
         sb.append("<").append(map.get("name")).append(">");
         sb.append("<").append(map.get("midName")).append(">");
         sb.append("<").append(map.get("birthDate")).append(">");
         sb.append("<").append(map.get("fone")).append(">");
         sb.append("<").append(map.get("gender")).append(">").append("\n");
-
+        } catch (IllegalArgumentException e){
+            e.getMessage();
+        }
         return sb;
     }
 
@@ -35,6 +37,7 @@ public class WriterToFile {
         writer.write("\n");
         writer.flush();
         writer.close();
+        System.out.println("Новая запись успешно добавлена в файл " + path);
         }catch (IOException e){
             System.out.println("Нудалось сделать запись в файл.");
         }

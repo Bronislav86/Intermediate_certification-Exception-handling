@@ -11,7 +11,11 @@ public class PersonData {
 
     public String getValue() throws NumberFormatException {
         Scanner inner = new Scanner(System.in);
-        System.out.println("Введите ФИО, дату рождения, номер телефона и пол.\n");
+        System.out.println("Введите персональные данные, используя заданный формат в одну строку в любом порядке:\n");
+        System.out.println("1. Фамилия Имя Отчество - через пробел");
+        System.out.println("2. Дату рождения - dd.mm.yyyy");
+        System.out.println("3. Номер телефона - 89xxxxxxxxx");
+        System.out.println("4. Пол - 'f'-жен., 'm'-муж.");
         String input = inner.nextLine();
         inner.close();
         return input;
@@ -40,17 +44,31 @@ public class PersonData {
                 if (!element.contains(".")) {
                     throw new DateFormatException();
                 }
-            }
-            if (element.matches(".*\\d.*"))  {
+            }else if (element.matches(".*\\d.*") && element.length() == 11)  {
                 mapData.put("fone", element);
+                if (!element.contains(".*\\d.*") && element.length() < 11) {
+                    throw new FoneFormatException();
+                }
             }else if (element.length() == 1 && (element.contains("f") || element.contains("m"))) {
                 mapData.put("gender", element);
+                if (element.length() != 1 && (!element.contains("f") || !element.contains("m"))) {
+                    throw new GenderFormatException();
+                }
             }else if (element.length() > 1 && !element.matches(".*\\d.*") && !mapData.containsKey("surname")) {
                 mapData.put("surname", element);
+                if (element.contains(".*\\d.*") || element.contains(".") || element.length() < 2) {
+                    throw new NameFormatException();
+                }
             }else if (element.length() > 1 && !element.matches(".*\\d.*") && mapData.containsKey("surname") && !mapData.containsKey("name")) {
                 mapData.put("name", element);
+                if (element.contains(".*\\d.*") || element.contains(".") || element.length() < 2) {
+                    throw new NameFormatException();
+                }
             }else if (element.length() > 1 && !element.matches(".*\\d.*") && mapData.containsKey("surname") && mapData.containsKey("name") && !mapData.containsKey("midName")) {
                 mapData.put("midName", element);
+                if (element.contains(".*\\d.*") || element.contains(".") || element.length() < 2) {
+                    throw new NameFormatException();
+                }
             }
         }
         return mapData;
